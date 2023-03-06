@@ -17,5 +17,6 @@ function onSearch(e) {
     if (imgsApiService.query === '') {
         return;
     }
+    
     fetchImages();
 }
