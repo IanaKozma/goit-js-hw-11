@@ -1,29 +1,38 @@
+import axios from "axios";
+
+const API_KEY = '34128058-61007cddafffab4d625916ab2';
 const BASE_URL = 'https://pixabay.com/api/';
-const searchParams = new URLSearchParams({
-    key: '34128058-61007cddafffab4d625916ab2',
+const BASE_SEARCH_OPTIONS = {
     image_type: "photo",
     orientation: "horizontal",
-    safesearch: "true",
-    per_page: "40",
-});
+    safesearch: true,
+};
 
 export class ImgsApiService {
     constructor() {
         this.searchQuery = '';
         this.page = 1;
+        this.per_page = 40;
+        this.totalPage = 0;
+        this.loadedNow = 0;
     }
 
-    async function fetchImages() {
-        const url = `${BASE_URL}?q=${this.searchQuery}&${searchParams}&page=${this.page}`;
+    async fetchImages() {
         try {
-            const response = await axios.get(url)
-            .then(response => response.json())
-            .then(({ images }) => {
-                this.incrementPage();
-                return images;
-            });
+            const searchOptions = {
+                ...BASE_SEARCH_OPTIONS,
+                q: this.searchQuery,
+                page: this.page,
+                per_page: this.per_page,
+            };
+            this.incrementPage();
+            this.resetLoaded();
+
+            const url = `${BASE_URL}?key=${API_KEY}`;
+
+            return axios.get(url, searchOptions);
         } catch (error) {
-            Notify.info("Sorry, there are no images matching your search query. Please try again.");
+            console.error(error);
         }
     }
 
@@ -33,6 +42,10 @@ export class ImgsApiService {
 
     resetPage() {
         this.page = 1;
+    }
+
+    resetLoaded() {
+        this.loadedNow = 0;
     }
 
     get query() {
