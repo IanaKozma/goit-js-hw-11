@@ -9,8 +9,8 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 const refs = {
   searchForm: document.querySelector('.search-form'),
   imagesContainer: document.querySelector('.gallery'),
-  input: document.querySelector('input.search-form'),
-  searchBtn: document.querySelector('button.search-form'),
+  input: document.querySelector('input[name="searchQuery"]'),
+  searchBtn: document.querySelector('button[type="submit"]'),
 };
 
 const imgsApiService = new ImgsApiService();
