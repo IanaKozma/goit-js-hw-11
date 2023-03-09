@@ -30,7 +30,7 @@ export class ImgsApiService {
 
             const url = `${BASE_URL}?key=${API_KEY}`;
 
-            return axios.get(url, searchOptions);
+            return axios.get(url, {params: searchOptions});
         } catch (error) {
             console.error(error);
         }
